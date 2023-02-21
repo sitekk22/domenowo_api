@@ -301,7 +301,7 @@ if (!prawidloweTLD($tld)) {
     //file_put_contents('testy.txt', $json_merge);
     echo ($json_merge);
   } else {
-    $json1 = json_encode(array("rejestrator" => '', "cena_odn" => 0, 'cena_rej' => 0, 'dostepna' => false, 'prawidloweTLD' => false, 'domena' => $domena));
+    $json1 = json_encode(array("rejestrator" => '', "cena_odn" => 0, 'cena_rej' => 0, 'dostepna' => false, 'prawidloweTLD' => true, 'domena' => $domena));
     $json[] = json_decode($json1);
     echo (json_encode($json));
   }
