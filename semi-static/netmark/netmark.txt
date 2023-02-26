@@ -32,7 +32,7 @@ nom.pl 49.9 14
 turystyka.pl 49.9 14
 shop.pl 49.9 14
 com 64.9 64.9
-info 104.9 104.9
+info 114 114
 biz 94.9 94.9
 net 74.9 74.9
 org 74.9 74.9
