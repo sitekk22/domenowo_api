@@ -29,7 +29,7 @@ function cors()
 }
 
 cors();
-
+header("Access-Control-Allow-Origin: *");
 
 
 
@@ -251,8 +251,8 @@ function domenypl($domena)
 
 
 
-$domena = $_REQUEST['domena'];
-#$domena = "żabkaasdas.com";
+#$domena = $_REQUEST['domena'];
+$domena = "żabkaasdas.com";
 $domena = urlencode($domena);
 $tld = explode('.', $domena);
 #
@@ -295,8 +295,10 @@ if (!prawidloweTLD($tld)) {
     #
     $cennik_wal = array();
     for ($i = 0; $i < count($cennik); $i++) {
-      if ($cennik[$i] != null && $cennik[$i]>0) {
-        $cennik_wal[] = $cennik[$i];
+        $ceny = json_decode(json_encode($cennik[$i]), true);
+        $ceny = $ceny["cena_rej"] + $ceny["cena_odn"];
+        if ($cennik[$i] != null && $ceny > 0) {
+            $cennik_wal[] = $cennik[$i];
       }
     }
 

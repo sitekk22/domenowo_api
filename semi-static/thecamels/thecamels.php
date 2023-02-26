@@ -3,6 +3,7 @@ include "../curl.php";
 
 $url = 'https://thecamels.org/domeny/';
 $res = curl_get_contents($url, "", 0, 0, 0);
+if ($res){
 $res = explode('data-content="all"', $res)[1];
 $res = explode('<tr ', $res);
 $arr = array();
@@ -43,4 +44,5 @@ for ($i = 0; $i < count($arr); $i += 3) {
   $cennik[] = "\n";
 }
 file_put_contents("thecamels.txt", $cennik);
+}
 #print_r($cennik);

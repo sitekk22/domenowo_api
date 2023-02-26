@@ -10,6 +10,8 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
   throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
 $f = curl_get_contents($url, 0, 0);
+if ($f){
+    
 $f = explode('id="prices-netto" ', $f)[1];
 $f = explode("</tbody>", $f)[0];
 $f = explode("<tr>", $f);
@@ -28,4 +30,5 @@ for ($i = 3; $i < count($f); $i++) {
   $arr[] = "\n";
 }
 file_put_contents('seohost.txt', $arr);
+}
 #print_r($f[count($f) - 1]);

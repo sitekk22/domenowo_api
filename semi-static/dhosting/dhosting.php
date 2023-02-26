@@ -3,6 +3,7 @@
 function dhosting()
 {
   $f = file_get_contents("dhosting.raw");
+  if ($f){
   $f = explode("\n", $f);
   $arr = array();
   for ($i = 0; $i < count($f); $i++) {
@@ -53,7 +54,7 @@ function dhosting()
       $funkcjonalne[] = "9.90\n";
     }
   }
-  file_put_contents("funkcjonalne.txt", $funkcjonalne);
+  file_put_contents("funkcjonalne.txt", $funkcjonalne);}
 }
 
 #dhosting();

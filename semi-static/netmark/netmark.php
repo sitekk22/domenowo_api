@@ -4,6 +4,8 @@ include "../curl.php";
 
 $url = "http://www.netmark.pl/feeds/domainpricing.php";
 $f = curl_get_contents($url, 0, 0);
+if ($f){
+
 $f = explode("<tr>", $f);
 $arr = array();
 for ($i = 2; $i < count($f); $i++) {
@@ -23,3 +25,5 @@ for ($i = 2; $i < count($f); $i++) {
   $arr[] = "\n";
 }
 file_put_contents("netmark.txt", $arr);
+file_put_contents("cron_test.txt", date("d h:i:s"));
+}
