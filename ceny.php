@@ -78,7 +78,7 @@ function szukanie_z_pliku($rej, $tld)
   for ($i = 0; $i < count($file); $i++) {
     $linia = explode(" ", $file[$i]);
     if ($linia[0] == $tld) {
-      $json = array("rejestrator" => "$rej", "cena_odn" => (float) $linia[1], "cena_rej" => (float)$linia[2]);
+      $json = array("rejestrator" => "$rej", "cena_odn" => (float) $linia[1], "cena_rej" => (float)$linia[2], "dostepna" => true);
       return json_encode($json);
     }
   }
@@ -87,7 +87,7 @@ function szukanie_z_pliku($rej, $tld)
 
 function azpl(string $domena)
 {
-  $ceny = array("rejestrator" => 'az.pl', "cena_odn" => 0, 'cena_rej' => 0);
+  $ceny = array("rejestrator" => 'az.pl', "cena_odn" => 0, 'cena_rej' => 0 ,"dostepna" => true);
   $json = curl_get_contents("https://api-az.online.pro/domains/$domena/search?bundle[]=pl&bundle[]=online", "", 0, 0, 0);
   $splitP = explode('{"fqdn":', $json);
 
@@ -179,7 +179,7 @@ function homepl(string $domena)
 }
 function krupl($tld)
 {
-  $json = array("rejestrator" => 'kru.pl', "cena_odn" => 0, 'cena_rej' => 0);
+  $json = array("rejestrator" => 'kru.pl', "cena_odn" => 0, 'cena_rej' => 0, "dostepna" => true);
 
   $html = curl_get_contents("https://www.kru.pl/cennikdomen.php", "", 0, 0, 0);
   $html = explode("<main id=\"main-body\">", $html)[1];
@@ -240,7 +240,7 @@ function domenypl($domena)
       }
     }
   }
-  $json = array("rejestrator" => 'domeny.pl', "cena_odn" => 0, "cena_rej" => 0);
+  $json = array("rejestrator" => 'domeny.pl', "cena_odn" => 0, "cena_rej" => 0, "dostepna" => true);
   $json['cena_rej'] = $cena[0];
   $json['cena_odn'] = $cena[1];
   return json_encode($json);
@@ -251,8 +251,8 @@ function domenypl($domena)
 
 
 
-#$domena = $_REQUEST['domena'];
-$domena = "żabkaasdas.com";
+$domena = $_REQUEST['domena'];
+#$domena = "facebook.com";
 $domena = urlencode($domena);
 $tld = explode('.', $domena);
 #
@@ -281,6 +281,7 @@ if (!prawidloweTLD($tld)) {
   $dostepna = (array) $cennik[0];
   $dostepna = end($dostepna);
 
+  include('cache.php');
   if ($dostepna) {
     $cennik[] = json_decode(krupl($tld));
     $cennik[] = json_decode(domenypl($domena));
@@ -299,6 +300,7 @@ if (!prawidloweTLD($tld)) {
         $ceny = $ceny["cena_rej"] + $ceny["cena_odn"];
         if ($cennik[$i] != null && $ceny > 0) {
             $cennik_wal[] = $cennik[$i];
+            insert_to_db($domena, $cennik[$i]);
       }
     }
 
@@ -309,6 +311,10 @@ if (!prawidloweTLD($tld)) {
     $json1 = json_encode(array("rejestrator" => '', "cena_odn" => 0, 'cena_rej' => 0, 'dostepna' => false, 'prawidloweTLD' => true, 'domena' => $domena));
     $json[] = json_decode($json1);
     echo (json_encode($json));
+    for ($i = 0; $i < count($cennik); $i++){
+        insert_to_db($domena, $cennik[$i]);
+    }
+
   }
 }
 echo ("\n");
