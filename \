@@ -1,0 +1,13 @@
+<?php
+$rej = ["dhosting", "ovhcloud", "netmark", "seohost", "thecamels"];
+
+for ($i = 0; $i < count($rej); $i++){
+    $f = file_get_contents("semi-static/$rej[$i]/$rej[$i].txt");
+    $f = explode("\n", $f);
+    for ($j=0; $j<count($f) ;$j++){
+        $line=$f[$j];
+        print_r($line."\n");
+    }
+}
+
+?>

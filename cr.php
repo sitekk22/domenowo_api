@@ -41,4 +41,4 @@ function get_from_db(){
     print_r($table);
 }
 
-#get_from_db();
+get_from_db();
