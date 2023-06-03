@@ -291,6 +291,7 @@ if (!prawidloweTLD($tld)) {
     $cennik[] = json_decode(szukanie_z_pliku("seohost.pl", $tld));
     $cennik[] = json_decode(szukanie_z_pliku("netmark.pl", $tld));
     $cennik[] = json_decode(szukanie_z_pliku("dhosting.pl", $tld));
+    $cennik[] = json_decode(szukanie_z_pliku("hostido.pl", $tld));
     #
     # Walidacja cennika
     #
